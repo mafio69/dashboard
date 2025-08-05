@@ -31,9 +31,28 @@ return [
         return $client;
     },
 
+    // Definicja klienta Gemini
+    \Gemini\Client::class => function () {
+        $apiKey = $_ENV['GEMINI_API_KEY'] ?? '';
+        if (empty($apiKey)) {
+            // W idealnym świecie chcielibyśmy, aby aplikacja zgłosiła błąd, jeśli klucz API nie jest dostępny.
+            // Rzucenie wyjątku jest dobrym podejściem, ponieważ zatrzyma to działanie aplikacji
+            // i poinformuje dewelopera o problemie konfiguracyjnym.
+            throw new \RuntimeException('GEMINI_API_KEY is not set in the environment variables.');
+        }
+        // Używamy fabryki dostarczonej przez bibliotekę Gemini do stworzenia klienta.
+        // Jest to zgodne z dobrymi praktykami, ponieważ fabryka zajmuje się całym
+        // skomplikowanym procesem tworzenia obiektu.
+        return \Gemini\Client::factory()
+            ->withApiKey($apiKey)
+            ->make();
+    },
+
     // Definicja naszego nowego serwisu do obsługi czatu
-    ChatService::class => function () {
-        return new ChatService();
+    ChatService::class => function (ContainerInterface $container) {
+        // Prosimy kontener o dostarczenie nam instancji klienta Gemini.
+        // Dzięki temu ChatService nie musi wiedzieć, jak go utworzyć.
+        return new ChatService($container->get(\Gemini\Client::class));
     },
 
     GoogleAuthService::class => function (ContainerInterface $container) {

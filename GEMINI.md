@@ -9,47 +9,56 @@ Jest to projekt osobistego dashboardu, który integruje dane z różnych usług 
 
 ## Plan Działania
 
-### Faza 1: Przygotowanie Środowiska (Ukończona)
+### ✅ Faza 1: Przygotowanie Środowiska
+### ✅ Faza 2: Integracja z API Google
+### ✅ Faza 3: Refaktoryzacja Backendu do Architektury MVC/DI
+### ✅ Faza 4: Integracja z AI (Backend PHP)
 
-1.  ✅ **Stworzenie struktury projektu**
-2.  ✅ **Przygotowanie backendu PHP**
-3.  ✅ **Przygotowanie frontendu React**
-4.  ✅ **Weryfikacja komunikacji**
+### ✅ Faza 5: Refaktoryzacja Frontendu do Architektury Komponentowej
 
-### Faza 2: Integracja z API Google (Ukończona)
+Naszym celem jest przebudowa frontendu aplikacji React do nowoczesnej, modułowej architektury opartej na komponentach. Chcemy stworzyć elastyczny dashboard, w którym każda funkcja (Kalendarz, Czat, Gmail) jest niezależnym "widgetem", co ułatwi zarządzanie kodem i jego dalszy rozwój.
 
-1.  ✅ **Konfiguracja Google Cloud i autoryzacji**
-2.  ✅ **Implementacja logiki logowania i pobierania danych z Kalendarza**
-3.  ✅ **Dodanie ekranu powitalnego z danymi użytkownika**
+**Plan Architektury:**
+```
+frontend/
+└── src/
+    ├── services/              // <-- Logika API
+    │   └── api.js
+    ├── components/            // <-- Komponenty UI
+    │   ├── LoginScreen.js
+    │   ├── WelcomeScreen.js
+    │   ├── Dashboard.js       // <-- Główny panel
+    │   ├── CalendarWidget.js
+    │   ├── ChatWidget.js
+    │   └── GmailWidget.js     // <-- Miejsce na przyszłość
+    └── App.js                 // <-- Główny router aplikacji
+```
 
-### Faza 3: Refaktoryzacja Backendu do Architektury MVC/DI (Ukończona)
+**Kroki Implementacyjne:**
 
-Naszym celem jest przekształcenie kodu backendu w nowoczesną, skalowalną i łatwą w utrzymaniu architekturę opartą o wzorzec MVC i wstrzykiwanie zależności (DI).
-
-1.  ✅ **Instalacja zależności:** Dodanie `php-di/php-di` do projektu.
-2.  ✅ **Stworzenie nowej struktury plików:**
-    *   Utworzenie katalogu `backend/app/` na pliki konfiguracyjne.
-    *   Wydzielenie `dependencies.php` do konfiguracji kontenera DI.
-    *   Wydzielenie `routes.php` do definicji tras.
-3.  ✅ **Stworzenie "Bootstrapa":** Utworzenie pliku `app/bootstrap.php`, który będzie składał aplikację w całość.
-4.  ✅ **Stworzenie "chudego" `public/index.php`:** Punkt wejścia do aplikacji będzie teraz zawierał tylko 2 linie kodu.
-5.  ✅ **Sprzątanie:** Usunięcie starych plików i finalizacja struktury.
-
-### Faza 4: Integracja z AI (Backend PHP)
-(...)
-
-### Faza 5: Rozwój i Dopracowanie
-(...)
+*   [x] **Krok 1: Przygotowanie struktury**
+    *   [x] Stworzenie katalogów `frontend/src/components` i `frontend/src/services`.
+    *   [x] Przeniesienie `WelcomeScreen.js` do `frontend/src/components`.
+*   [x] **Krok 2: Wydzielenie logiki API**
+    *   [x] Stworzenie pliku `frontend/src/services/api.js`.
+    *   [x] Przeniesienie wszystkich wywołań `fetch` z `App.js` do `api.js`.
+*   [x] **Krok 3: Stworzenie komponentów-widgetów**
+    *   [x] Implementacja `CalendarWidget.js` do wyświetlania wydarzeń.
+    *   [x] Implementacja `ChatWidget.js` z pełną logiką czatu.
+    *   [x] Stworzenie zaślepki `GmailWidget.js`.
+*   [x] **Krok 4: Stworzenie głównego Dashboardu**
+    *   [x] Implementacja `Dashboard.js`, który będzie agregował widgety.
+    *   [x] Zaprojektowanie dwukolumnowego layoutu (Kalendarz/Gmail po lewej, Czat po prawej).
+*   [x] **Krok 5: Uproszczenie `App.js`**
+    *   [x] Zrefaktoryzowanie `App.js` do roli routera, który zarządza tylko stanem logowania i wyświetla `LoginScreen` lub `Dashboard`.
+*   [x] **Krok 6: Finalizacja i testy**
+    *   [x] Weryfikacja, czy cała aplikacja działa poprawnie po refaktoryzacji.
+    *   [x] Usunięcie zbędnego kodu i komentarzy.
 
 ---
 
 ## Aktualny Krok
 
-**Faza 3: Refaktoryzacja i Naprawa Błędów - Ukończona!**
+**Rozpoczynamy Fazę 5: Refaktoryzacja Frontendu.**
 
-Pomyślnie zakończyliśmy pełną refaktoryzację backendu do architektury MVC. Naprawiliśmy wszystkie krytyczne błędy, w tym problemy z CORS, błędy 500, logowanie i wylogowywanie. Aplikacja jest teraz stabilna i w pełni funkcjonalna.
-
-**Następny krok:**
-Sfinalizowanie i zabezpieczenie naszej pracy.
-1.  **Commit zmian:** Zapisanie wszystkich wprowadzonych poprawek i refaktoryzacji w repozytorium Git.
-2.  **Przegląd i sprzątanie:** Usunięcie z projektu zbędnych plików i katalogów (np. `_trash`), które są pozostałością po poprzedniej strukturze.
+Zaczynamy od przygotowania nowej struktury katalogów i przeniesienia istniejących komponentów.
