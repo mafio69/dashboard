@@ -2,6 +2,7 @@ import React from 'react';
 import CalendarWidget from './CalendarWidget';
 import ChatWidget from './ChatWidget';
 import GmailWidget from './GmailWidget';
+import ErrorBoundary from './ErrorBoundary'; // Importujemy nasz ErrorBoundary
 import * as api from '../services/api';
 
 function Dashboard({ onLogout }) {
@@ -24,12 +25,18 @@ function Dashboard({ onLogout }) {
             </div>
             <div style={{ display: 'flex', gap: '20px' }}>
                 <div style={{ flex: 1 }}>
-                    <CalendarWidget />
+                    <ErrorBoundary>
+                        <CalendarWidget />
+                    </ErrorBoundary>
                     <br />
-                    <GmailWidget />
+                    <ErrorBoundary>
+                        <GmailWidget />
+                    </ErrorBoundary>
                 </div>
                 <div style={{ flex: 1 }}>
-                    <ChatWidget />
+                    <ErrorBoundary>
+                        <ChatWidget />
+                    </ErrorBoundary>
                 </div>
             </div>
         </div>
