@@ -1,5 +1,3 @@
-> **Notatka dla Gemini (Adam):** Pamiętaj, aby po każdym kroku zaktualizować sekcję `## Aktualny Krok` na końcu tego pliku.
-
 # Projekt: Personalizowany Dashboard
 
 > **Wytyczne dotyczące pracy i kodu:**
@@ -18,35 +16,40 @@ Jest to projekt osobistego dashboardu, który integruje dane z różnych usług 
 3.  ✅ **Przygotowanie frontendu React**
 4.  ✅ **Weryfikacja komunikacji**
 
-### Faza 2: Integracja z API Google (W trakcie)
+### Faza 2: Integracja z API Google (Ukończona)
 
-1.  ✅ **Konfiguracja Google Cloud:** Utworzenie projektu, włączenie API, wygenerowanie kluczy `credentials.json`.
-2.  ✅ **Instalacja zależności PHP:** Zainstalowanie biblioteki `google/apiclient` za pomocą Composera.
-3.  ✅ **Implementacja logiki autoryzacji:**
-    *   Stworzenie skryptu `get-login-url.php` do generowania linku logowania.
-    *   Podłączenie linku do przycisku "Zaloguj się z Google" w aplikacji React.
-4.  **Obsługa odpowiedzi od Google (OAuth Callback):**
-    *   Stworzenie skryptu `oauth-callback.php`, który przechwyci kod autoryzacyjny od Google.
-    *   Wymiana kodu na token dostępu (`access token`) i zapisanie go (np. w sesji).
-5.  **Pobranie danych z API:**
-    *   Stworzenie skryptu `get-calendar-events.php`, który użyje zapisanego tokenu do pobrania wydarzeń z kalendarza.
-    *   Wyświetlenie wydarzeń w aplikacji React.
+1.  ✅ **Konfiguracja Google Cloud i autoryzacji**
+2.  ✅ **Implementacja logiki logowania i pobierania danych z Kalendarza**
+3.  ✅ **Dodanie ekranu powitalnego z danymi użytkownika**
 
-### Faza 3: Integracja z AI (Backend PHP)
+### Faza 3: Refaktoryzacja Backendu do Architektury MVC/DI (Ukończona)
+
+Naszym celem jest przekształcenie kodu backendu w nowoczesną, skalowalną i łatwą w utrzymaniu architekturę opartą o wzorzec MVC i wstrzykiwanie zależności (DI).
+
+1.  ✅ **Instalacja zależności:** Dodanie `php-di/php-di` do projektu.
+2.  ✅ **Stworzenie nowej struktury plików:**
+    *   Utworzenie katalogu `backend/app/` na pliki konfiguracyjne.
+    *   Wydzielenie `dependencies.php` do konfiguracji kontenera DI.
+    *   Wydzielenie `routes.php` do definicji tras.
+3.  ✅ **Stworzenie "Bootstrapa":** Utworzenie pliku `app/bootstrap.php`, który będzie składał aplikację w całość.
+4.  ✅ **Stworzenie "chudego" `public/index.php`:** Punkt wejścia do aplikacji będzie teraz zawierał tylko 2 linie kodu.
+5.  ✅ **Sprzątanie:** Usunięcie starych plików i finalizacja struktury.
+
+### Faza 4: Integracja z AI (Backend PHP)
 (...)
 
-### Faza 4: Rozwój i Dopracowanie
+### Faza 5: Rozwój i Dopracowanie
 (...)
 
 ---
 
 ## Aktualny Krok
 
-**Jesteśmy w trakcie Fazy 2. Pomyślnie zintegrowaliśmy proces rozpoczynania logowania.**
+**Faza 3: Refaktoryzacja i Naprawa Błędów - Ukończona!**
 
-Udało nam się:
-*   Wygenerować link autoryzacyjny po stronie PHP.
-*   Dodać przycisk w aplikacji React, który po kliknięciu poprawnie przekierowuje na stronę logowania Google.
+Pomyślnie zakończyliśmy pełną refaktoryzację backendu do architektury MVC. Naprawiliśmy wszystkie krytyczne błędy, w tym problemy z CORS, błędy 500, logowanie i wylogowywanie. Aplikacja jest teraz stabilna i w pełni funkcjonalna.
 
-**Następny krok po przerwie:**
-Naszym celem będzie stworzenie pliku `oauth-callback.php`. Będzie on odpowiedzialny za "złapanie" odpowiedzi od Google po tym, jak użytkownik się zaloguje i wyrazi zgodę. Skrypt ten odbierze specjalny, jednorazowy kod i wymieni go na `access token` – magiczny klucz, który pozwoli nam na wysyłanie zapytań bezpośrednio do API Kalendarza.
+**Następny krok:**
+Sfinalizowanie i zabezpieczenie naszej pracy.
+1.  **Commit zmian:** Zapisanie wszystkich wprowadzonych poprawek i refaktoryzacji w repozytorium Git.
+2.  **Przegląd i sprzątanie:** Usunięcie z projektu zbędnych plików i katalogów (np. `_trash`), które są pozostałością po poprzedniej strukturze.

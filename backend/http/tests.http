@@ -1,0 +1,9 @@
+### Test endpointu /api/chat
+GET http://localhost:8000/api/chat
+Accept: application/json
+
+###### Test endpointu /api/chat
+POST http://localhost:8888/auth/login-url
+Accept: application/json
+
+###
