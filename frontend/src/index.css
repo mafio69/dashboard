@@ -1,13 +1,114 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #50e3c2;
+    --accent-color: #ff6b6b;
+    --background-color: #f0f4f8;
+    --text-color: #333333;
+    --widget-background: #ffffff;
+    --widget-border: #e0e0e0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+    margin: 0;
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.widget {
+    background-color: var(--widget-background);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--widget-border);
+}
+
+.widget:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--widget-border);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Styl dla widgetu bloga */
+.blog-widget ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.blog-widget li {
+    border-bottom: 1px solid var(--widget-border);
+    padding: 10px 0;
+}
+
+.blog-widget li:last-child {
+    border-bottom: none;
+}
+
+/* Styl dla widgetu kalendarza */
+.calendar-widget {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* Styl dla widgetu czatu */
+.chat-widget {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Nagłówek dashboardu */
+.dashboard-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    color: white;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
 }

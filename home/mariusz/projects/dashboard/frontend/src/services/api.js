@@ -81,31 +81,9 @@ export const logError = (error, errorInfo) => {
     return fetchWithErrorHandling(`${API_BASE_URL}/api/log-error`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify({ 
             error: error.toString(),
             errorInfo: errorInfo.componentStack
         }),
     });
-
-
-};
-
-/**
- * Pobiera wpisy z bloga.
- * @returns {Promise<Array>} Lista wpisów z bloga.
- */
-export const fetchBlogPosts = () => {
-    return fetchWithErrorHandling(`${API_BASE_URL}/api/blog-posts`)
-        .then(data => {
-            if (!Array.isArray(data)) {
-                throw new Error('Unexpected response format: blog posts data is not an array');
-            }
-            return data;
-        })
-        .catch(error => {
-            console.error('Error fetching blog posts:', error);
-            // Możesz zdecydować, czy chcesz rzucić błąd dalej, czy może zwrócić pustą tablicę
-            // throw error; // Odkomentuj, jeśli chcesz rzucić błąd
-            return []; // Zwraca pustą tablicę w przypadku błędu
-        });
 };

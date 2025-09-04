@@ -19,19 +19,21 @@ class CorsMiddleware implements MiddlewareInterface
 
     public function process(Request $request, RequestHandler $handler): Response
     {
-        // Obsługa zapytania pre-flight (OPTIONS)
         if ($request->getMethod() === 'OPTIONS') {
-            $response = $this->responseFactory->createResponse();
-        } else {
-            // Przetwarzanie normalnego zapytania
-            $response = $handler->handle($request);
+            $response = $this->responseFactory->createResponse(200);
+            return $response
+                ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+                ->withHeader('Access-Control-Allow-Credentials', 'true');
         }
 
-        // Dodawanie nagłówków CORS do każdej odpowiedzi
+        // Dla pozostałych zapytań, przekazujemy je dalej w stosie middleware i dodajemy nagłówki CORS do odpowiedzi
+        $response = $handler->handle($request);
         return $response
             ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-            ->withHeader('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
             ->withHeader('Access-Control-Allow-Credentials', 'true');
     }
 }

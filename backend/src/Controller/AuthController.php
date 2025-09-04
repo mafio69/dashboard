@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Service\Google\GoogleAuthService;
 use App\Service\Google\GoogleCalendarService;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Psr7\Stream;
 
 class AuthController
 {
@@ -20,7 +22,10 @@ class AuthController
 
     public function getLoginUrl(Request $request, Response $response): Response
     {
+        error_log('XXXX getLoginUrl called');
+
         $authUrl = $this->googleAuthService->getLoginUrl();
+        error_log('XXXX getLoginUrl called  ' . $authUrl);
         $payload = json_encode(['authUrl' => $authUrl]);
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
@@ -56,13 +61,13 @@ class AuthController
             return $response->withHeader('Content-Type', 'application/json');
         }
 
-        return $response->withStatus(401)->withHeader('Content-Type', 'application/json')->withBody((new \Slim\Psr7\Stream(fopen('php://temp', 'r+')))->write(json_encode(['error' => 'Unauthorized'])));
+        return $response->withStatus(401)->withHeader('Content-Type', 'application/json')->withBody((new Stream(fopen('php://temp', 'r+')))->write(json_encode(['error' => 'Unauthorized'])));
     }
 
     public function getCalendarEvents(Request $request, Response $response): Response
     {
         if (!isset($_SESSION['access_token'])) {
-            return $response->withStatus(401)->withHeader('Content-Type', 'application/json')->withBody((new \Slim\Psr7\Stream(fopen('php://temp', 'r+')))->write(json_encode(['error' => 'Unauthorized'])));
+            return $response->withStatus(401)->withHeader('Content-Type', 'application/json')->withBody((new Stream(fopen('php://temp', 'r+')))->write(json_encode(['error' => 'Unauthorized'])));
         }
 
         try {
@@ -70,7 +75,7 @@ class AuthController
             $payload = json_encode($events);
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
             return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
         }

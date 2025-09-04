@@ -18,6 +18,8 @@ function ChatWidget() {
             })
             .catch(error => {
                 console.error('Błąd podczas wysyłania wiadomości:', error);
+                // Logujemy błąd na serwerze
+                api.logError(error, { componentStack: 'In ChatWidget' }); 
                 const errorMessage = { role: 'ai', text: 'Przepraszam, wystąpił błąd.' };
                 setHistory(prev => [...prev, errorMessage]);
             });

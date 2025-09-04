@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as api from '../services/api'; // Importujemy nasze API
 
 class ErrorBoundary extends Component {
   // Krok 1: Inicjalizujemy stan. Domyślnie zakładamy, że błędu nie ma.
@@ -17,9 +18,12 @@ class ErrorBoundary extends Component {
   // Krok 3: Ta metoda jest wywoływana po wystąpieniu błędu.
   // Jest to idealne miejsce na wykonanie "efektów ubocznych", np. wysłanie logów o błędzie do zewnętrznego serwisu.
   componentDidCatch(error, errorInfo) {
-    // Na razie po prostu wyświetlimy błąd w konsoli.
-    // W prawdziwej aplikacji moglibyśmy wysłać to do serwisu monitorującego błędy.
+    // Wyświetlamy błąd w konsoli deweloperskiej
     console.error("ErrorBoundary złapał błąd:", error, errorInfo);
+    // Wysyłamy błąd na serwer w celu zalogowania
+    api.logError(error, errorInfo).catch(err => {
+      console.error("Nie udało się wysłać logu błędu na serwer:", err);
+    });
   }
 
   // Krok 4: Metoda renderowania decyduje, co pokazać.

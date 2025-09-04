@@ -23,10 +23,19 @@ function App() {
     }).catch(error => console.error('Błąd podczas sprawdzania statusu logowania:', error));
   }, []);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserInfo(null);
-    window.location.href = 'http://localhost:3000';
+  const handleLogout = async () => {
+    try {
+      await api.logout();
+      setIsLoggedIn(false);
+      setUserInfo(null);
+      window.location.href = window.location.origin;
+    } catch (error) {
+      console.error('Błąd podczas wylogowywania:', error);
+      // Wyloguj lokalnie nawet jeśli API zwraca błąd
+      setIsLoggedIn(false);
+      setUserInfo(null);
+      window.location.href = window.location.origin;
+    }
   };
 
   return (

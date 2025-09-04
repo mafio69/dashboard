@@ -22,11 +22,11 @@ class ChatService
     {
 
         try {
-            $response = $this->geminiClient->geminiPro()->generateContent([$message]);
+            $response = $this->geminiClient->generativeModel('gemini-1.5-pro-latest')->generateContent([$message]);
             return $response->text();
         } catch (\Exception $e) {
-            // W przypadku błędu zwracamy komunikat o błędzie
-            return 'Error communicating with Gemini API: ' . $e->getMessage();
+            // Rzucamy wyjątek, aby kontroler mógł go obsłużyć
+            throw new \Exception('Error communicating with Gemini API: ' . $e->getMessage());
         }
     }
 }

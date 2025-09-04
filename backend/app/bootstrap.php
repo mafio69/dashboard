@@ -3,7 +3,7 @@
 use App\Middleware\CorsMiddleware;
 use App\Middleware\SessionMiddleware;
 use DI\ContainerBuilder;
-use Slim\App;
+use Slim\Factory\AppFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -11,32 +11,33 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-return (function () {
-    $containerBuilder = new ContainerBuilder();
+$containerBuilder = new ContainerBuilder();
 
-    // Ustawienia kontenera DI
-    $containerBuilder->addDefinitions(__DIR__ . '/dependencies.php');
+// Ustawienia kontenera DI
+$containerBuilder->addDefinitions(__DIR__ . '/dependencies.php');
 
-    try {
-        $container = $containerBuilder->build();
-    } catch (Exception $e) {
-        die('Error building DI container: ' . $e->getMessage());
-    }
+try {
+    $container = $containerBuilder->build();
+    AppFactory::setContainer($container);
+    $app = AppFactory::create();
+    error_log('MF-Request origin: ' . APP_ENV);    // Reszta konfiguracji aplikacji...
 
-    // Tworzenie aplikacji Slim
-    $app = $container->get(App::class);
-
-    // Dodanie SessionMiddleware do aplikacji (na początku)
-    $app->add(new SessionMiddleware());
-
-    // Rejestracja tras (przed middleware)
+    // Rejestracja tras
     (require __DIR__ . '/routes.php')($app);
 
-    // To middleware jest kluczowe do obsługi zapytań pre-flight (OPTIONS)
+    // Routing Middleware. Przetwarza żądanie, aby dopasować je do trasy.
     $app->addRoutingMiddleware();
 
-    // Dodanie CorsMiddleware do aplikacji
+    // Dodanie SessionMiddleware do aplikacji
+    $app->add($container->get(SessionMiddleware::class));
+
+    // Error Middleware. Przechwytuje wyjątki i generuje odpowiedzi o błędach.
+    $app->addErrorMiddleware(true, true, true);
+
+    // CorsMiddleware. Musi być dodany jako ostatni, aby wykonał się jako pierwszy (zasada LIFO).
     $app->add($container->get(CorsMiddleware::class));
 
     return $app;
-})();
+} catch (Exception $e) {
+    die('Error building DI container or creating app: ' . $e->getMessage());
+}
